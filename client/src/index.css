@@ -1,0 +1,322 @@
+/*
+ * DESIGN SYSTEM — Dr. Santiago Vecina — Diagnóstico Inicial
+ * Philosophy: Luxury Editorial
+ * Movement: Luxury Editorial — Revista de Alto Padrão
+ * Core: fundo quase-preto, dourado como único acento, Cormorant Garamond + Nunito Sans
+ * Colors: Background #020202 | Gold oklch(0.72 0.12 75) | Foreground oklch(0.96 0.008 80)
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+}
+
+:root {
+  --radius: 0.25rem;
+  /* Core palette — matches santiagovip exactly */
+  --background: oklch(0.08 0.005 285);
+  --foreground: oklch(0.96 0.008 80);
+  --card: oklch(0.11 0.005 285);
+  --card-foreground: oklch(0.96 0.008 80);
+  --popover: oklch(0.11 0.005 285);
+  --popover-foreground: oklch(0.96 0.008 80);
+  --primary: oklch(0.72 0.12 75);
+  --primary-foreground: oklch(0.08 0.005 285);
+  --secondary: oklch(0.15 0.005 285);
+  --secondary-foreground: oklch(0.80 0.008 80);
+  --muted: oklch(0.18 0.005 285);
+  --muted-foreground: oklch(0.55 0.010 80);
+  --accent: oklch(0.72 0.12 75);
+  --accent-foreground: oklch(0.08 0.005 285);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.25 0.008 285);
+  --input: oklch(0.15 0.005 285);
+  --ring: oklch(0.72 0.12 75);
+  /* Gold tokens */
+  --gold: oklch(0.72 0.12 75);
+  --gold-light: oklch(0.82 0.10 80);
+  --gold-dim: oklch(0.55 0.08 75);
+  --offwhite: oklch(0.97 0.012 80);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Nunito Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+  ::selection {
+    background: oklch(0.72 0.12 75 / 0.3);
+    color: oklch(0.97 0.012 80);
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* Gold shimmer animation for buttons */
+  .btn-gold-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-gold-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s ease;
+  }
+  .btn-gold-shimmer:hover::after {
+    left: 150%;
+  }
+
+  /* Gold divider line */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, oklch(0.72 0.12 75 / 0.5), transparent);
+  }
+
+  /* Custom radio/checkbox gold style */
+  .option-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid oklch(0.25 0.008 285);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.875rem;
+    color: oklch(0.70 0.008 80);
+    background: transparent;
+    white-space: nowrap;
+  }
+  .option-pill:hover {
+    border-color: oklch(0.72 0.12 75 / 0.5);
+    color: oklch(0.90 0.008 80);
+  }
+  .option-pill.selected {
+    border-color: oklch(0.72 0.12 75);
+    color: oklch(0.72 0.12 75);
+    background: oklch(0.72 0.12 75 / 0.08);
+  }
+
+  /* Form field focus glow */
+  .field-input {
+    background: oklch(0.12 0.005 285);
+    border: 1px solid oklch(0.25 0.008 285);
+    color: oklch(0.96 0.008 80);
+    border-radius: 2px;
+    padding: 0.625rem 0.875rem;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.9375rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+    outline: none;
+  }
+  .field-input:focus {
+    border-color: oklch(0.72 0.12 75);
+    background: oklch(0.13 0.005 285);
+  }
+  .field-input::placeholder {
+    color: oklch(0.40 0.005 80);
+  }
+
+  /* Textarea */
+  .field-textarea {
+    background: oklch(0.12 0.005 285);
+    border: 1px solid oklch(0.25 0.008 285);
+    color: oklch(0.96 0.008 80);
+    border-radius: 2px;
+    padding: 0.75rem 0.875rem;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.9375rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+  }
+  .field-textarea:focus {
+    border-color: oklch(0.72 0.12 75);
+  }
+  .field-textarea::placeholder {
+    color: oklch(0.40 0.005 80);
+  }
+
+  /* Select */
+  .field-select {
+    background: oklch(0.12 0.005 285);
+    border: 1px solid oklch(0.25 0.008 285);
+    color: oklch(0.96 0.008 80);
+    border-radius: 2px;
+    padding: 0.625rem 0.875rem;
+    width: 100%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 0.9375rem;
+    transition: border-color 0.2s ease;
+    outline: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .field-select:focus {
+    border-color: oklch(0.72 0.12 75);
+  }
+  .field-select option {
+    background: oklch(0.12 0.005 285);
+    color: oklch(0.96 0.008 80);
+  }
+
+  /* Section number watermark */
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem;
+    font-weight: 700;
+    color: oklch(0.72 0.12 75 / 0.06);
+    line-height: 1;
+    position: absolute;
+    top: -1rem;
+    right: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Progress bar */
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, oklch(0.72 0.12 75), oklch(0.82 0.10 80));
+    border-radius: 2px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: oklch(0.10 0.005 285);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.25 0.008 285);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.72 0.12 75 / 0.5);
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes goldShimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.10s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.20s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.30s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.40s; }

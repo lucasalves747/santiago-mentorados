@@ -1,0 +1,34 @@
+# Project TODO — Diagnóstico Inicial Dr. Santiago Vecina
+
+- [x] Formulário multi-etapas com 10 seções
+- [x] Identidade visual Dr. Santiago (fundo escuro, dourado, Cormorant Garamond)
+- [x] Barra de progresso dourada animada
+- [x] Sidebar de navegação por seções
+- [x] Campos interativos (pills, escala numérica, tabela de energia)
+- [x] Página de agradecimento (/obrigado)
+- [x] Ativar backend (db + server + user)
+- [x] Instalar dependências: resend + @react-pdf/renderer
+- [x] Criar rota tRPC submitDiagnostico no servidor
+- [x] Gerar PDF formatado com as respostas do formulário
+- [x] Enviar PDF por e-mail via Resend para sanvecmed@gmail.com
+- [x] Enviar notificação WhatsApp via CallMeBot para +13215599204 (removido a pedido do usuário)
+- [x] Integrar frontend: chamar mutation tRPC ao submeter formulário
+- [x] Adicionar estado de loading e feedback de sucesso/erro no formulário
+- [x] Configurar secret RESEND_API_KEY
+- [x] Escrever testes vitest para a rota de envio
+- [x] Remover integração WhatsApp (CallMeBot) — manter apenas e-mail
+- [x] Remover o texto "Entregável 4" da tela de introdução do formulário
+- [x] Criar página /carta — Carta de Boas-Vindas personalizada da mentoria
+- [x] Criar página /guia — Guia Completo do Mentorado (Manual de Bordo 90 dias)
+- [ ] Criar rota backend para gerar PDF da Carta de Boas-Vindas
+- [ ] Criar rota backend para gerar PDF do Guia do Mentorado
+- [ ] Adicionar botão "Baixar PDF" na página /carta
+- [ ] Adicionar botão "Baixar PDF" na página /guia
+- [x] Criar página /diario — Diário de Transformação (6 pilares diários)
+- [x] Criar rota backend para salvar registros do diário e enviar por e-mail
+- [x] Criar tabelas no banco: diagnosticos + diarios
+- [x] Salvar registros no banco ao submeter formulários
+- [x] Criar rotas admin: listar diagnósticos e diários
+- [x] Criar página /admin com dashboard, listagem e gráficos de evolução
+- [x] Proteger /admin com autenticação (apenas owner)
+- [x] Criar página /mentoria — Hub central com todos os materiais da mentoria
