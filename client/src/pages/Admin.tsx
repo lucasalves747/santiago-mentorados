@@ -7,7 +7,7 @@
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend, RadarChart, Radar, PolarGrid,
@@ -161,7 +161,7 @@ export default function Admin() {
           <p style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.85rem", color: MUTED, marginBottom: "1.5rem" }}>
             Esta área é exclusiva para o Dr. Santiago Vecina. Faça login para continuar.
           </p>
-          <a href={getLoginUrl()} style={{
+          <a href={"/login"} style={{
             display: "inline-block",
             background: `linear-gradient(135deg, oklch(0.72 0.12 75), oklch(0.65 0.14 60))`,
             color: "oklch(0.08 0.005 285)",

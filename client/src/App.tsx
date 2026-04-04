@@ -12,10 +12,13 @@ import DiarioTransformacao from "./pages/DiarioTransformacao";
 import Admin from "./pages/Admin";
 import HubMentoria from "./pages/HubMentoria";
 
+import { Login } from "./pages/Login";
+
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/login"} component={Login} />
       <Route path={"/obrigado"} component={Obrigado} />
       <Route path={"/carta"} component={CartaBoasVindas} />
       <Route path={"/guia"} component={GuiaMentorado} />

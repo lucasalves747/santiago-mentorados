@@ -1,7 +1,8 @@
-import { getLoginUrl } from "@/const";
+import { useEffect, useState, useCallback, useMemo } from "react";
+import { supabase } from "@/lib/supabase";
+import { User as SupabaseUser } from "@supabase/supabase-js";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
-import { useCallback, useEffect, useMemo } from "react";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -9,72 +10,73 @@ type UseAuthOptions = {
 };
 
 export function useAuth(options?: UseAuthOptions) {
-  const { redirectOnUnauthenticated = false, redirectPath = getLoginUrl() } =
+  const { redirectOnUnauthenticated = false, redirectPath = "/login" } =
     options ?? {};
+    
+  const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
+
+  useEffect(() => {
+    // Get initial session
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setSupabaseUser(session?.user ?? null);
+      setSessionLoading(false);
+    };
+    
+    getSession();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSupabaseUser(session?.user ?? null);
+        setSessionLoading(false);
+      }
+    );
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const utils = trpc.useUtils();
 
+  // Fetch local DB user using the Supabase JWT injected by our TRPC link
   const meQuery = trpc.auth.me.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
-  });
-
-  const logoutMutation = trpc.auth.logout.useMutation({
-    onSuccess: () => {
-      utils.auth.me.setData(undefined, null);
-    },
+    enabled: !!supabaseUser && !sessionLoading,
   });
 
   const logout = useCallback(async () => {
-    try {
-      await logoutMutation.mutateAsync();
-    } catch (error: unknown) {
-      if (
-        error instanceof TRPCClientError &&
-        error.data?.code === "UNAUTHORIZED"
-      ) {
-        return;
-      }
-      throw error;
-    } finally {
-      utils.auth.me.setData(undefined, null);
-      await utils.auth.me.invalidate();
-    }
-  }, [logoutMutation, utils]);
+    await supabase.auth.signOut();
+    utils.auth.me.setData(undefined, null);
+    await utils.auth.me.invalidate();
+  }, [utils]);
 
   const state = useMemo(() => {
-    localStorage.setItem(
-      "manus-runtime-user-info",
-      JSON.stringify(meQuery.data)
-    );
+    // local DB user if authenticated, otherwise null
+    const user = meQuery.data ?? null;
+    const loading = sessionLoading || (!!supabaseUser && meQuery.isLoading);
+    const error = meQuery.error ?? null;
+    
     return {
-      user: meQuery.data ?? null,
-      loading: meQuery.isLoading || logoutMutation.isPending,
-      error: meQuery.error ?? logoutMutation.error ?? null,
-      isAuthenticated: Boolean(meQuery.data),
+      user,
+      loading,
+      error,
+      isAuthenticated: Boolean(user),
     };
-  }, [
-    meQuery.data,
-    meQuery.error,
-    meQuery.isLoading,
-    logoutMutation.error,
-    logoutMutation.isPending,
-  ]);
+  }, [supabaseUser, sessionLoading, meQuery.data, meQuery.isLoading, meQuery.error]);
 
   useEffect(() => {
     if (!redirectOnUnauthenticated) return;
-    if (meQuery.isLoading || logoutMutation.isPending) return;
+    if (state.loading) return;
     if (state.user) return;
     if (typeof window === "undefined") return;
     if (window.location.pathname === redirectPath) return;
 
-    window.location.href = redirectPath
-  }, [
-    redirectOnUnauthenticated,
-    redirectPath,
-    logoutMutation.isPending,
-    meQuery.isLoading,
-    state.user,
-  ]);
+    window.location.href = redirectPath;
+  }, [redirectOnUnauthenticated, redirectPath, state.loading, state.user]);
 
   return {
     ...state,
