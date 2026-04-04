@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import { trpc } from "@/lib/trpc";
+import { api as trpc } from "@/lib/api";
 import { toast } from "sonner";
 
 // ─── Cores ────────────────────────────────────────────────────────────────────

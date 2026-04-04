@@ -1,8 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { User as SupabaseUser } from "@supabase/supabase-js";
-import { trpc } from "@/lib/trpc";
-import { TRPCClientError } from "@trpc/client";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -10,60 +9,67 @@ type UseAuthOptions = {
 };
 
 export function useAuth(options?: UseAuthOptions) {
-  const { redirectOnUnauthenticated = false, redirectPath = "/login" } =
-    options ?? {};
+  const { redirectOnUnauthenticated = false, redirectPath = "/login" } = options ?? {};
     
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [sessionLoading, setSessionLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+    supabase.auth.getSession().then(({ data }) => {
+      setSupabaseUser(data.session?.user ?? null);
+      setSessionLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSupabaseUser(session?.user ?? null);
       setSessionLoading(false);
-    };
-    
-    getSession();
+    });
 
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSupabaseUser(session?.user ?? null);
-        setSessionLoading(false);
-      }
-    );
-
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
-  const utils = trpc.useUtils();
+  const queryClient = useQueryClient();
 
-  // Fetch local DB user using the Supabase JWT injected by our TRPC link
-  const meQuery = trpc.auth.me.useQuery(undefined, {
+  const meQuery = useQuery({
+    queryKey: ['auth-me', supabaseUser?.id],
     retry: false,
     refetchOnWindowFocus: false,
     enabled: !!supabaseUser && !sessionLoading,
+    queryFn: async () => {
+        if (!supabaseUser) return null;
+        const { data, error } = await supabase.from('users').select('*').eq('openId', supabaseUser.id).single();
+        if (error) {
+            // Se o usuário logou pela primeira vez no Supabase, a linha em "users" pode não existir. Vamos inseri-la:
+            if (error.code === 'PGRST116') { // HTTP 406 Not Found no single()
+                const newUser = {
+                    openId: supabaseUser.id,
+                    email: supabaseUser.email || null,
+                    role: 'user', 
+                    name: supabaseUser.user_metadata?.name || null
+                };
+                await supabase.from('users').insert(newUser);
+                return newUser;
+            }
+            throw error;
+        }
+        return data; // retorna DB local user com name, email, role
+    }
   });
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
-    utils.auth.me.setData(undefined, null);
-    await utils.auth.me.invalidate();
-  }, [utils]);
+    queryClient.setQueryData(['auth-me', supabaseUser?.id], null);
+    await queryClient.invalidateQueries({ queryKey: ['auth-me'] });
+  }, [queryClient, supabaseUser?.id]);
 
   const state = useMemo(() => {
-    // local DB user if authenticated, otherwise null
     const user = meQuery.data ?? null;
     const loading = sessionLoading || (!!supabaseUser && meQuery.isLoading);
-    const error = meQuery.error ?? null;
     
     return {
       user,
       loading,
-      error,
+      error: meQuery.error ?? null,
       isAuthenticated: Boolean(user),
     };
   }, [supabaseUser, sessionLoading, meQuery.data, meQuery.isLoading, meQuery.error]);
@@ -78,9 +84,5 @@ export function useAuth(options?: UseAuthOptions) {
     window.location.href = redirectPath;
   }, [redirectOnUnauthenticated, redirectPath, state.loading, state.user]);
 
-  return {
-    ...state,
-    refresh: () => meQuery.refetch(),
-    logout,
-  };
+  return { ...state, refresh: () => meQuery.refetch(), logout };
 }

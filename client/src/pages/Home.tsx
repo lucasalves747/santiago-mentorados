@@ -8,7 +8,7 @@
 import { useState, useRef } from "react";
 import { useLocation } from "wouter";
 import { ChevronLeft, ChevronRight, Menu, X, Loader2 } from "lucide-react";
-import { trpc } from "@/lib/trpc";
+import { api as trpc } from "@/lib/api";
 import { toast } from "sonner";
 
 // ─── Types ────────────────────────────────────────────────────────────────────

@@ -5,7 +5,7 @@
  */
 
 import { useState, useMemo } from "react";
-import { trpc } from "@/lib/trpc";
+import { api as trpc } from "@/lib/api";
 import { useAuth } from "@/_core/hooks/useAuth";
 
 import {
