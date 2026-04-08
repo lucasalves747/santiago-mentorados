@@ -6,13 +6,19 @@ ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 -- ==========================================
 -- Políticas para a tabela DIAGNOSTICOS
 -- ==========================================
--- 1) Qualquer um pode inserir na tabela (Pois o formulário é aberto)
-CREATE POLICY "Permitir insercao anonima" 
+-- 1) Apenas usuários autenticados podem inserir diagnósticos e o registro deve pertencer a eles
+CREATE POLICY "Permitir insercao diagnosticos autenticado" 
 ON public.diagnosticos FOR INSERT 
-TO anon, authenticated
-WITH CHECK (true);
+TO authenticated
+WITH CHECK (new."openId" = auth.uid());
 
--- 2) Apenas quem for 'admin' pode visualizar os diagnósticos
+-- 2) Usuários podem visualizar apenas seus próprios diagnósticos
+CREATE POLICY "Usuario visualiza seus diagnosticos"
+ON public.diagnosticos FOR SELECT 
+TO authenticated 
+USING ("openId" = auth.uid());
+
+-- 3) Admins visualizam todos os diagnósticos
 CREATE POLICY "Admin visualiza todos diagnosticos"
 ON public.diagnosticos FOR SELECT 
 TO authenticated 

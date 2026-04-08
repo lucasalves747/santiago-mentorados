@@ -7,6 +7,9 @@
 import { useState } from "react";
 import { api as trpc } from "@/lib/api";
 import { toast } from "sonner";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { useLocation } from "wouter";
+import { ArrowLeft } from "lucide-react";
 
 // ─── Cores ────────────────────────────────────────────────────────────────────
 const GOLD = "oklch(0.72 0.12 75)";
@@ -65,6 +68,18 @@ const fatoresEnergia = [
   "Trabalho com propósito", "Estresse elevado", "Má alimentação",
   "Pouco sono", "Conflitos relacionais", "Excesso de telas"
 ];
+
+function AuthGuard() {
+  const auth = useAuth({ redirectOnUnauthenticated: true, redirectPath: "/login" });
+  if (auth.loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-white">
+        Carregando...
+      </div>
+    );
+  }
+  return null;
+}
 
 // ─── Componentes auxiliares ───────────────────────────────────────────────────
 
@@ -249,6 +264,8 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 // ─── Componente principal ─────────────────────────────────────────────────────
 
 export default function DiarioTransformacao() {
+  const auth = useAuth();
+  const [, navigate] = useLocation();
   const today = new Date().toISOString().split("T")[0];
 
   const [form, setForm] = useState<DiarioData>({
@@ -392,6 +409,65 @@ export default function DiarioTransformacao() {
           background: `radial-gradient(ellipse 60% 80% at 50% 0%, oklch(0.65 0.14 160 / 0.06) 0%, transparent 60%)`,
           pointerEvents: "none",
         }} />
+
+        <button
+          onClick={() => navigate("/")}
+          style={{
+            position: "absolute",
+            top: "1.5rem",
+            left: "1.5rem",
+            background: "transparent",
+            border: "none",
+            color: MUTED,
+            padding: "0.5rem",
+            borderRadius: "3px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            transition: "all 0.15s",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = `${BORDER}40`;
+            e.currentTarget.style.color = FG;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "transparent";
+            e.currentTarget.style.color = MUTED;
+          }}
+        >
+          <ArrowLeft size={16} />
+          <span style={{
+            fontFamily: "'Nunito Sans', sans-serif",
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+          }}>
+            Voltar
+          </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={auth.logout}
+          style={{
+            position: "absolute",
+            top: "1.5rem",
+            right: "1.5rem",
+            border: `1px solid ${GOLD}`,
+            background: "transparent",
+            color: GOLD,
+            padding: "0.65rem 1rem",
+            borderRadius: "999px",
+            cursor: "pointer",
+            fontSize: "0.75rem",
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.12em",
+          }}
+        >
+          Sair
+        </button>
 
         <div style={{
           fontFamily: "'Nunito Sans', sans-serif",

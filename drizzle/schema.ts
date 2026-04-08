@@ -23,6 +23,7 @@ export const diagnosticos = pgTable("diagnosticos", {
     id: serial("id").primaryKey(),
     nome: varchar("nome", { length: 255 }).notNull().default(""),
     email: varchar("email", { length: 320 }).default(""),
+    openId: varchar("openId", { length: 64 }).notNull(),
     dados: json("dados").notNull(), // FormData completo como JSON
     createdAt: timestamp("createdAt").defaultNow().notNull(),
 });

@@ -7,9 +7,10 @@
 
 import { useState, useRef } from "react";
 import { useLocation } from "wouter";
-import { ChevronLeft, ChevronRight, Menu, X, Loader2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Menu, X, Loader2, ArrowLeft } from "lucide-react";
 import { api as trpc } from "@/lib/api";
 import { toast } from "sonner";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -901,12 +902,27 @@ function Section10({ data, onChange }: { data: FormData; onChange: (n: string, v
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Home() {
+  const auth = useAuth();
   const [, navigate] = useLocation();
   const [currentSection, setCurrentSection] = useState(0); // 0 = intro, 1-10 = sections
   const [formData, setFormData] = useState<FormData>({});
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  const submitMutation = trpc.diagnostico.submit.useMutation({
+    onSuccess: (result) => {
+      if (result.emailSent) {
+        toast.success("PDF enviado com sucesso para sanvecmed@gmail.com!");
+      } else {
+        toast.warning("Diagnóstico salvo, mas houve um problema ao enviar o e-mail.");
+      }
+      navigate("/obrigado");
+    },
+    onError: (err) => {
+      toast.error(`Erro ao enviar: ${err.message}`);
+    },
+  });
 
   const totalSections = SECTIONS.length;
   const isIntro = currentSection === 0;
@@ -935,20 +951,6 @@ export default function Home() {
   const handlePrev = () => {
     if (currentSection > 0) goTo(currentSection - 1);
   };
-
-  const submitMutation = trpc.diagnostico.submit.useMutation({
-    onSuccess: (result) => {
-      if (result.emailSent) {
-        toast.success("PDF enviado com sucesso para sanvecmed@gmail.com!");
-      } else {
-        toast.warning("Diagnóstico salvo, mas houve um problema ao enviar o e-mail.");
-      }
-      navigate("/obrigado");
-    },
-    onError: (err) => {
-      toast.error(`Erro ao enviar: ${err.message}`);
-    },
-  });
 
   const handleSubmit = () => {
     submitMutation.mutate(formData);
@@ -994,6 +996,42 @@ export default function Home() {
         alignItems: "center",
         justifyContent: "space-between",
       }}>
+        {/* Back button */}
+        <button
+          onClick={() => navigate("/")}
+          style={{
+            background: "transparent",
+            border: "none",
+            color: MUTED,
+            padding: "0.5rem",
+            borderRadius: "3px",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            transition: "all 0.15s",
+            marginRight: "0.5rem",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = `${BORDER}40`;
+            e.currentTarget.style.color = FG;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "transparent";
+            e.currentTarget.style.color = MUTED;
+          }}
+        >
+          <ArrowLeft size={16} />
+          <span style={{
+            fontFamily: "'Nunito Sans', sans-serif",
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+          }}>
+            Voltar
+          </span>
+        </button>
+
         {/* Logo */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <div style={{
@@ -1019,17 +1057,35 @@ export default function Home() {
         </div>
 
         {/* Center: section indicator */}
-        {!isIntro && (
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <span style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED }}>
-              {currentSection}/{totalSections}
-            </span>
-            <span style={{ color: BORDER }}>·</span>
-            <span style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.7rem", color: GOLD }}>
-              {SECTIONS[currentSection - 1]?.label}
-            </span>
-          </div>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          {!isIntro && (
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <span style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED }}>
+                {currentSection}/{totalSections}
+              </span>
+              <span style={{ color: BORDER }}>·</span>
+              <span style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.7rem", color: GOLD }}>
+                {SECTIONS[currentSection - 1]?.label}
+              </span>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={auth.logout}
+            style={{
+              border: `1px solid ${BORDER}`,
+              background: "transparent",
+              color: FG,
+              padding: "0.55rem 0.9rem",
+              borderRadius: "0.75rem",
+              cursor: "pointer",
+              fontSize: "0.75rem",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Sair
+          </button>
+        </div>
 
         {/* Menu toggle (mobile) */}
         <button

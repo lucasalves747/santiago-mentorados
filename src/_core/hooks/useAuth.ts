@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { supabase } from "@/lib/supabase";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 
 type UseAuthOptions = {
   redirectOnUnauthenticated?: boolean;
@@ -10,6 +11,7 @@ type UseAuthOptions = {
 
 export function useAuth(options?: UseAuthOptions) {
   const { redirectOnUnauthenticated = false, redirectPath = "/login" } = options ?? {};
+  const [, navigate] = useLocation();
     
   const [supabaseUser, setSupabaseUser] = useState<SupabaseUser | null>(null);
   const [sessionLoading, setSessionLoading] = useState(true);
@@ -81,8 +83,14 @@ export function useAuth(options?: UseAuthOptions) {
     if (typeof window === "undefined") return;
     if (window.location.pathname === redirectPath) return;
 
-    window.location.href = redirectPath;
-  }, [redirectOnUnauthenticated, redirectPath, state.loading, state.user]);
+    // First attempt client-side redirect through wouter.
+    // If that does not update the route for any reason, fallback to a hard redirect.
+    try {
+      navigate(redirectPath);
+    } catch {
+      window.location.href = redirectPath;
+    }
+  }, [redirectOnUnauthenticated, redirectPath, state.loading, state.user, navigate]);
 
   return { ...state, refresh: () => meQuery.refetch(), logout };
 }

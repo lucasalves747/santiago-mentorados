@@ -5,6 +5,8 @@
  */
 
 import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
+import { ArrowLeft } from "lucide-react";
 
 // ─── Paleta ───────────────────────────────────────────────────────────────────
 const GOLD        = "oklch(0.72 0.12 75)";
@@ -156,6 +158,7 @@ function Divider() {
 export default function GuiaMentorado() {
   const [visible, setVisible] = useState(false);
   const [activeRaiz, setActiveRaiz] = useState(0);
+  const [, navigate] = useLocation();
 
   useEffect(() => {
     const t = setTimeout(() => setVisible(true), 100);
@@ -174,13 +177,49 @@ export default function GuiaMentorado() {
         backdropFilter: "blur(12px)",
         borderBottom: `1px solid ${BORDER}`,
       }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
-          <div style={{ width: "30px", height: "30px", background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "2px" }}>
-            <span style={{ color: BG, fontSize: "11px", fontWeight: 800 }}>SV</span>
-          </div>
-          <div>
-            <p style={{ margin: 0, fontSize: "12px", fontWeight: 700, color: FG }}>Dr. Santiago Vecina</p>
-            <p style={{ margin: 0, fontSize: "8px", color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase" as const }}>Performance Integral</p>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <button
+            onClick={() => navigate("/")}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: MUTED,
+              padding: "0.5rem",
+              borderRadius: "3px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              transition: "all 0.15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `${BORDER}40`;
+              e.currentTarget.style.color = FG;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = MUTED;
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span style={{
+              fontFamily: "'Nunito Sans', sans-serif",
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+            }}>
+              Voltar
+            </span>
+          </button>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
+            <div style={{ width: "30px", height: "30px", background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: "2px" }}>
+              <span style={{ color: BG, fontSize: "11px", fontWeight: 800 }}>SV</span>
+            </div>
+            <div>
+              <p style={{ margin: 0, fontSize: "12px", fontWeight: 700, color: FG }}>Dr. Santiago Vecina</p>
+              <p style={{ margin: 0, fontSize: "8px", color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase" as const }}>Performance Integral</p>
+            </div>
           </div>
         </div>
         <span style={{ fontSize: "8px", letterSpacing: "2px", textTransform: "uppercase" as const, color: STEEL_LIGHT, fontWeight: 700 }}>

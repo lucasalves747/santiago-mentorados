@@ -5,7 +5,7 @@
  */
 
 import { useLocation } from "wouter";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ArrowLeft } from "lucide-react";
 
 export default function Obrigado() {
   const [, navigate] = useLocation();
@@ -15,6 +15,34 @@ export default function Obrigado() {
       className="min-h-screen flex flex-col items-center justify-center px-4"
       style={{ background: "oklch(0.08 0.005 285)" }}
     >
+      {/* Back button */}
+      <button
+        onClick={() => navigate("/")}
+        className="absolute top-6 left-6 flex items-center gap-2 px-3 py-2 rounded-lg transition-all hover:bg-white/5"
+        style={{
+          background: "transparent",
+          border: "none",
+          color: "oklch(0.55 0.010 80)",
+          cursor: "pointer",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = "oklch(0.96 0.008 80)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = "oklch(0.55 0.010 80)";
+        }}
+      >
+        <ArrowLeft size={16} />
+        <span style={{
+          fontFamily: "'Nunito Sans', sans-serif",
+          fontSize: "0.7rem",
+          fontWeight: 600,
+          letterSpacing: "0.05em",
+        }}>
+          Voltar
+        </span>
+      </button>
+
       {/* Logo */}
       <div className="mb-12 text-center">
         <div

@@ -6,6 +6,8 @@
 
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { ArrowLeft } from "lucide-react";
 
 // ─── Cores ────────────────────────────────────────────────────────────────────
 const BG = "oklch(0.07 0.005 285)";
@@ -29,7 +31,7 @@ const MATERIAIS = [
     titulo: "Formulário de Diagnóstico",
     subtitulo: "Anamnese Expandida",
     descricao: "O ponto de partida da sua transformação. Responda com honestidade radical — cada campo revela um padrão que a ciência e a fé vão trabalhar juntos.",
-    href: "/",
+    href: "/diagnostico",
     cor: GOLD,
     icone: "◈",
     tag: "Obrigatório · Início da Jornada",
@@ -227,6 +229,17 @@ const FASES = [
 
 // ─── Componente principal ─────────────────────────────────────────────────────
 export default function HubMentoria() {
+  const auth = useAuth();
+  const [, navigate] = useLocation();
+
+  const handleBack = () => {
+    if (auth.isAuthenticated) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div style={{ minHeight: "100vh", background: BG, color: FG }}>
 
@@ -240,25 +253,95 @@ export default function HubMentoria() {
         justifyContent: "space-between",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-          <div style={{
-            width: "36px", height: "36px",
-            background: `linear-gradient(135deg, ${GOLD}, ${COPPER})`,
-            borderRadius: "3px",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "'Nunito Sans', sans-serif",
-            fontSize: "12px", fontWeight: 800,
-            color: "oklch(0.08 0.005 285)",
-            letterSpacing: "0.05em",
-          }}>SV</div>
-          <div>
-            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", fontWeight: 600, color: FG }}>
-              Dr. Santiago Vecina
-            </div>
-            <div style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED }}>
-              Performance Integral
+          <button
+            onClick={handleBack}
+            style={{
+              background: "transparent",
+              border: "none",
+              color: MUTED,
+              padding: "0.5rem",
+              borderRadius: "3px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              transition: "all 0.15s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = `${BORDER}40`;
+              e.currentTarget.style.color = FG;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "transparent";
+              e.currentTarget.style.color = MUTED;
+            }}
+          >
+            <ArrowLeft size={16} />
+            <span style={{
+              fontFamily: "'Nunito Sans', sans-serif",
+              fontSize: "0.7rem",
+              fontWeight: 600,
+              letterSpacing: "0.05em",
+            }}>
+              {auth.isAuthenticated ? "Dashboard" : "Login"}
+            </span>
+          </button>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          {auth.isAuthenticated && (
+            <button
+              onClick={() => navigate("/dashboard")}
+              style={{
+                fontFamily: "'Nunito Sans', sans-serif",
+                fontSize: "0.7rem",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color: GOLD,
+                textDecoration: "none",
+                padding: "0.5rem 1rem",
+                border: `1px solid ${GOLD}40`,
+                borderRadius: "3px",
+                background: "transparent",
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = `${GOLD}10`;
+                e.currentTarget.style.borderColor = GOLD;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.borderColor = `${GOLD}40`;
+              }}
+            >
+              Meu Dashboard
+            </button>
+          )}
+
+          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+            <div style={{
+              width: "36px", height: "36px",
+              background: `linear-gradient(135deg, ${GOLD}, ${COPPER})`,
+              borderRadius: "3px",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontFamily: "'Nunito Sans', sans-serif",
+              fontSize: "12px", fontWeight: 800,
+              color: "oklch(0.08 0.005 285)",
+              letterSpacing: "0.05em",
+            }}>SV</div>
+            <div>
+              <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1rem", fontWeight: 600, color: FG }}>
+                Dr. Santiago Vecina
+              </div>
+              <div style={{ fontFamily: "'Nunito Sans', sans-serif", fontSize: "0.55rem", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED }}>
+                Performance Integral
+              </div>
             </div>
           </div>
         </div>
+
         <a
           href="/admin"
           style={{

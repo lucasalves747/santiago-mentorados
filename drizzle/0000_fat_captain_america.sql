@@ -3,6 +3,7 @@ CREATE TABLE "diagnosticos" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"nome" varchar(255) DEFAULT '' NOT NULL,
 	"email" varchar(320) DEFAULT '',
+	"openId" varchar(64) NOT NULL,
 	"dados" json NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL
 );

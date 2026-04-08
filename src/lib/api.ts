@@ -130,12 +130,41 @@ export const api = {
       useMutation(opts?: { onSuccess?: (data: any) => void, onError?: (error: Error) => void, onSettled?: () => void }) {
          return useMutation({
             mutationFn: async (vars: any) => {
-               const { data, error } = await supabase.from('diagnosticos').insert(vars).select().single();
+               const session = await supabase.auth.getSession();
+               const openId = session.data.session?.user?.id;
+               if (!openId) {
+                  throw new Error('Usuário não autenticado.');
+               }
+               const { data, error } = await supabase.from('diagnosticos').insert({ ...vars, openId }).select().single();
                if (error) throw error;
                return data;
             },
             ...opts
          });
+      }
+    }
+  },
+  user: {
+    listDiagnosticos: {
+      useQuery(params?: { search?: string }, opts?: { enabled?: boolean }) {
+        return useQuery({
+          queryKey: ['user-diagnosticos', params?.search],
+          queryFn: async () => {
+            const session = await supabase.auth.getSession();
+            const openId = session.data.session?.user?.id;
+            if (!openId) {
+              throw new Error('Usuário não autenticado.');
+            }
+            let q = supabase.from('diagnosticos').select('*').eq('openId', openId).order('createdAt', { ascending: false }).limit(100);
+            if (params?.search) {
+              q = q.ilike('nome', `%${params.search}%`);
+            }
+            const { data, error } = await q;
+            if (error) throw error;
+            return data || [];
+          },
+          enabled: opts?.enabled !== false
+        });
       }
     }
   }
