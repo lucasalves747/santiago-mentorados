@@ -190,9 +190,7 @@ export default function CartaBoasVindas() {
           <div style={{ position: "absolute", top: 0, left: 0, width: "60px", height: "60px", borderRight: `1px solid ${BORDER_GOLD}`, borderBottom: `1px solid ${BORDER_GOLD}`, opacity: 0.4 }} />
           <div style={{ position: "absolute", bottom: 0, right: 0, width: "60px", height: "60px", borderLeft: `1px solid ${BORDER_GOLD}`, borderTop: `1px solid ${BORDER_GOLD}`, opacity: 0.4 }} />
 
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "1rem", color: MUTED, marginBottom: "0.5rem" }}>
-            Miami, <span style={{ color: COPPER }}>{new Date().toLocaleDateString('pt-BR')}</span>
-          </p>
+         
           <p style={{
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: "clamp(1.5rem, 4vw, 2rem)",
