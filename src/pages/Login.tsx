@@ -49,7 +49,7 @@ export function Login() {
       setError(error.message);
       setLoading(false);
     } else {
-      setLocation("/dashboard");
+      setLocation("/");
     }
   };
 
