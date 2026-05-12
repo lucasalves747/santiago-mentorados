@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jantar de Negócios — Mesa Estratégica</title>
+    <meta name="description"
+        content="Um jantar estratégico para empresários brasileiros na Flórida que querem trocas reais, conexões de verdade e novos negócios." />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #121212;
+            color: #f2f2f2;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* Utilities */
+        .container {
+            max-width: 48rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .divider {
+            width: 6rem;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #a8874a, transparent);
+            margin: 0 auto;
+        }
+
+        /* Colors */
+        .gold {
+            color: #a8874a;
+        }
+
+        .text-muted {
+            color: #999;
+            font-size: 1.125rem;
+            line-height: 1.7;
+        }
+
+        .text-medium {
+            color: #f2f2f2;
+            font-weight: 500;
+            font-size: 1.125rem;
+        }
+
+        .text-highlight {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: #a8874a;
+        }
+
+        /* CTA Button */
+        .cta {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-align: center;
+            background-color: #a8874a;
+            color: #121212;
+            box-shadow: 0 0 30px rgba(168, 135, 74, 0.3);
+        }
+
+        .cta:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Section */
+        section {
+            padding: 2rem 1rem;
+            position: relative;
+            background-color: #121212;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3.5rem 1rem;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://assets.cdn.filesafe.space/dkM0aNpySiIFf3uusFTa/media/69b171e9236aa48c78581d58.jpeg') center/cover no-repeat;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(18, 18, 18, 0.80);
+        }
+
+        .hero-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at top, rgba(168, 135, 74, 0.1) 0%, transparent 60%);
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: #a8874a;
+            border: 1px solid rgba(168, 135, 74, 0.4);
+            border-radius: 9999px;
+            padding: 0.375rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.125rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: #fff;
+            max-width: 42rem;
+            margin: 0 auto 0.75rem;
+            line-height: 1.7;
+        }
+
+        .subtitle2 {
+            font-size: 1.1rem;
+            color: #fff;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+
+        /* Section titles */
+        h2 {
+            font-size: 1.625rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Bullet items */
+        .bullet-list {
+            max-width: 28rem;
+            margin: 1rem auto;
+            text-align: left;
+        }
+
+        .bullet-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.25rem 0;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .bullet-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: #a8874a;
+            flex-shrink: 0;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+        }
+
+        .card {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .card-dark {
+            background-color: #1a1a1a;
+            border: 1px solid #4a3d26;
+            color: #f2f2f2;
+        }
+
+        .card-light {
+            background-color: rgba(18, 18, 18, 0.05);
+            border: 1px solid rgba(18, 18, 18, 0.15);
+            color: #121212;
+        }
+
+        .card .bullet-dot {
+            margin-top: 0.5rem;
+        }
+
+        /* List cards */
+        .list-cards {
+            max-width: 28rem;
+            margin: 0 auto 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .list-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: #1a1a1a;
+            border: 1px solid #4a3d26;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        /* White section */
+        .section-white {
+            background-color: #ffffff;
+        }
+
+        .section-white h2 {
+            color: #121212;
+        }
+
+        .section-white .text-muted {
+            color: rgba(18, 18, 18, 0.7);
+        }
+
+        /* Gradient section */
+        .section-gradient {
+            background: linear-gradient(to bottom, #1f1b12, #121212);
+        }
+
+        /* Info grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+        }
+
+        .info-card {
+            background-color: #1a1a1a;
+            border: 1px solid #4a3d26;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .info-card svg {
+            margin: 0 auto 0.5rem;
+            color: #a8874a;
+        }
+
+        .info-label {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #a8874a;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Glow bg */
+        .glow-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, rgba(168, 135, 74, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* Quote */
+        .quote {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: #999;
+        }
+
+        /* CTA section */
+        .cta-section {
+            padding: 2.5rem 1rem;
+        }
+
+        .cta-circle1 {
+            position: absolute;
+            top: 2.5rem;
+            left: 2.5rem;
+            width: 5rem;
+            height: 5rem;
+            border: 1px solid rgba(168, 135, 74, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .cta-circle2 {
+            position: absolute;
+            bottom: 5rem;
+            right: 5rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border: 1px solid rgba(168, 135, 74, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Fixed bottom bar */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background-color: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid #4a3d26;
+            padding: 0.75rem 1rem;
+        }
+
+        .bottom-bar-inner {
+            max-width: 48rem;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bottom-bar-text {
+            display: none;
+        }
+
+        .bottom-bar-text span {
+            color: #999;
+        }
+
+        .bottom-bar-text .dot {
+            color: #a8874a;
+            margin: 0 0.5rem;
+        }
+
+        .bottom-bar-text .highlight {
+            color: #f2f2f2;
+            font-weight: 500;
+        }
+
+        .bottom-bar .cta {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 0.75rem 1.5rem;
+            box-shadow: none;
+        }
+
+        .spacer {
+            height: 4rem;
+        }
+
+        svg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            border: 1px solid #4a3d26;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 1rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+            line-height: 1;
+            z-index: 1;
+        }
+
+        .modal-close:hover {
+            color: #f2f2f2;
+        }
+
+        /* Responsive */
+        @media(min-width:640px) {
+            .card-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .bottom-bar-text {
+                display: block;
+                font-size: 0.875rem;
+            }
+
+            .bottom-bar .cta {
+                width: auto;
+            }
+        }
+
+        @media(min-width:768px) {
+            section {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero {
+                min-height: 90vh;
+                padding: 6rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 3.25rem;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            .cta {
+                font-size: 1.125rem;
+                padding: 1rem 2.25rem;
+            }
+
+            .subtitle {
+                font-size: 1.25rem;
+            }
+
+            .subtitle2 {
+                font-size: 1.125rem;
+            }
+
+            .text-muted {
+                font-size: 1.25rem;
+            }
+
+            .text-highlight {
+                font-size: 1.625rem;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .quote {
+                font-size: 1.375rem;
+            }
+
+            .cta-section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        @media(min-width:1024px) {
+            h1 {
+                font-size: 4rem;
+            }
+        }
+
+        .speaker-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1.25rem;
+            background: #1a1a1a;
+            border: 1px solid #4a3d26;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .speaker-card img {
+            width: 100%;
+            border-radius: 0.75rem;
+            border: 1px solid #4a3d26;
+            object-fit: cover;
+        }
+
+        .speaker-card h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .speaker-card p {
+            font-size: 0.875rem;
+            color: var(--muted-fg);
+            line-height: 1.6;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 48rem;
+            margin: 0 auto 2.5rem;
+        }
+
+        .info-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card .value {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            font-size: 0.875rem;
+            color: var(--muted-fg);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+        }
+
+        /* ---- Decisão ---- */
+        .decisao-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, hsla(var(--gold), 0.06) 0%, transparent 70%);
+        }
+
+        .decisao-circle1 {
+            position: absolute;
+            top: 2.5rem;
+            left: 2.5rem;
+            width: 5rem;
+            height: 5rem;
+            border: 1px solid hsla(var(--gold), 0.1);
+            border-radius: 50%;
+        }
+
+        .decisao-circle2 {
+            position: absolute;
+            bottom: 5rem;
+            right: 5rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border: 1px solid hsla(var(--gold), 0.08);
+            border-radius: 50%;
+        }
+
+        .decisao-line {
+            position: absolute;
+            top: 33%;
+            right: 25%;
+            width: 1px;
+            height: 4rem;
+            background: linear-gradient(to bottom, hsla(var(--gold), 0.2), transparent);
+        }
+
+        /* ---- Barra fixa ---- */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: hsla(0, 0%, 10%, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+        }
+
+        .bottom-bar-inner {
+            max-width: 56rem;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bottom-bar-text {
+            display: none;
+        }
+
+        .bottom-bar-text span {
+            font-size: 0.875rem;
+        }
+
+        .bottom-bar-text .dot {
+            color: var(--primary);
+            margin: 0 0.5rem;
+        }
+
+        .bottom-bar .cta-sm {
+            width: 100%;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            background: var(--primary);
+            color: var(--primary-fg);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bottom-bar .cta-sm:hover {
+            filter: brightness(1.1);
+        }
+
+        .spacer-bottom {
+            height: 5rem;
+        }
+
+        /* ---- Responsive ---- */
+        @media (min-width: 640px) {
+            .cta-group {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .speaker-card {
+                flex-direction: row;
+            }
+
+            .speaker-card img {
+                width: 10rem;
+            }
+
+            .bottom-bar-text {
+                display: block;
+            }
+
+            .bottom-bar .cta-sm {
+                width: auto;
+            }
+
+            .cta {
+                font-size: 1.125rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .hero {
+                padding: 6rem 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 3.75rem;
+            }
+
+            .section {
+                padding: 5rem 1.5rem;
+            }
+
+            .section h2 {
+                font-size: 3rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .speaker-card img {
+                width: 12rem;
+            }
+
+            .carousel-track img {
+                height: 20rem;
+            }
+
+            .highlight-text {
+                font-size: 1.5rem;
+            }
+
+            .quote {
+                font-size: 1.875rem;
+            }
+        }
+
+        .speakers-title {
+            font-size: 1.625rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-glow"></div>
+        <div class="container">
+            <img src="https://assets.cdn.filesafe.space/dkM0aNpySiIFf3uusFTa/media/69b192e87fc07ca59595b707.png"
+                alt="Plataforma Global"
+                style="max-width: 280px; margin: 0 auto 1.5rem; display: block; transform: translateX(-28px);" />
+            <span class="badge">Jantar de Negócios</span>
+            <h1>Networking de alto nível não acontece em eventos. <span class="gold">Acontece na mesa certa.</span></h1>
+            <p class="subtitle">
+                Um jantar estratégico para empresários brasileiros na Flórida que querem trocas reais, conexões de
+                verdade e
+                novos negócios — não apenas troca de cartões.
+            </p>
+            <p class="subtitle2">
+                Uma noite para conversar, criar relações e abrir oportunidades com quem também está construindo algo
+                grande na
+                região.
+            </p>
+            <button class="cta" onclick="document.getElementById('formModal').classList.add('active')">
+                Quero aplicar para um lugar na mesa
+            </button>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- QUEBRA DE CRENÇA -->
+    <section>
+        <div class="container">
+            <h2>A maioria dos empresários cresce até o limite do <span class="gold">ambiente que frequenta.</span></h2>
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+                <p class="text-muted">O problema não é falta de esforço.</p>
+                <p class="text-muted">
+                    O problema é continuar sentado nas mesmas mesas, conversando com as mesmas pessoas e ouvindo as
+                    mesmas
+                    ideias.
+                </p>
+                <p class="text-medium" style="font-size:1.25rem;">
+                    Negócios crescem quando você entra em <span class="gold">novos ambientes.</span>
+                </p>
+                <div class="bullet-list">
+                    <div class="bullet-item"><span class="bullet-dot"></span><span>decisões são tomadas</span></div>
+                    <div class="bullet-item"><span class="bullet-dot"></span><span>parcerias nascem</span></div>
+                    <div class="bullet-item">
+                        <span class="bullet-dot"></span><span>oportunidades aparecem naturalmente</span>
+                    </div>
+                </div>
+                <p class="text-medium">Esse jantar existe exatamente para isso.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- O QUE TORNA DIFERENTE -->
+    <section class="section-white">
+        <div class="container">
+            <h2>Isso não é um evento de <span class="gold">networking.</span></h2>
+            <p class="text-muted" style="margin-bottom:1.5rem;">Não tem palco. Não tem troca de cartão sem sentido.</p>
+            <p class="text-muted" style="margin-bottom:1.5rem;">O que acontece é simples:</p>
+            <div class="card-grid">
+                <div class="card card-light">
+                    <span class="bullet-dot"></span><span>empresários sentados na mesma mesa</span>
+                </div>
+                <div class="card card-light"><span class="bullet-dot"></span><span>conversa aberta</span></div>
+                <div class="card card-light"><span class="bullet-dot"></span><span>troca real de experiência</span>
+                </div>
+                <div class="card card-light">
+                    <span class="bullet-dot"></span><span>oportunidades surgindo naturalmente</span>
+                </div>
+            </div>
+            <p class="text-highlight">Aqui o networking acontece como deveria acontecer: olho no olho.</p>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- QUEM COSTUMA ESTAR NA MESA -->
+    <section class="section-gradient">
+        <div class="container">
+            <h2>Quem costuma estar <span class="gold">nessa mesa</span></h2>
+            <div class="list-cards">
+                <div class="list-card"><span class="bullet-dot"></span><span>donos de empresa</span></div>
+                <div class="list-card"><span class="bullet-dot"></span><span>empresários brasileiros da região</span>
+                </div>
+                <div class="list-card"><span class="bullet-dot"></span><span>profissionais em expansão</span></div>
+                <div class="list-card"><span class="bullet-dot"></span><span>pessoas construindo negócios reais</span>
+                </div>
+                <div class="list-card">
+                    <span class="bullet-dot"></span><span>gente que entende que ambiente muda resultados</span>
+                </div>
+            </div>
+            <p class="text-highlight">
+                Se você ainda acredita que crescimento acontece isolado, esse jantar não é para você.
+            </p>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- COMO FUNCIONA -->
+    <!--<section>
+      <div class="container">
+        <h2>Como funciona o <span class="gold">jantar</span></h2>
+        <div class="info-grid">
+          <div class="info-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <p class="info-label">Local</p>
+            <p class="info-value">St Lucie</p>
+          </div>
+          <div class="info-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            <p class="info-label">Horário</p>
+            <p class="info-value">7PM as 10PM</p>
+          </div>
+          <div class="info-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+            <p class="info-label">Formato</p>
+            <p class="info-value">Grupo reduzido</p>
+          </div>
+          <div class="info-card">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+              <path d="M7 2v20" />
+              <path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" />
+            </svg>
+            <p class="info-label">Experiência</p>
+            <p class="info-value">Jantar + networking</p>
+          </div>
+        </div>
+        <p class="text-highlight">Não é um evento grande. É uma mesa estratégica.</p>
+      </div>
+    </section>-->
+
+    <div class="divider"></div>
+
+    <!-- O QUE PODE NASCER -->
+    <section>
+        <div class="glow-bg"></div>
+        <div class="container" style="position:relative;">
+            <h2>O que normalmente nasce <span class="gold">dessa mesa</span></h2>
+            <div class="card-grid">
+                <div class="card card-dark">
+                    <span class="bullet-dot" style="background-color:#c4a56a"></span><span>novas parcerias</span>
+                </div>
+                <div class="card card-dark">
+                    <span class="bullet-dot" style="background-color:#c4a56a"></span><span>indicações de clientes</span>
+                </div>
+                <div class="card card-dark">
+                    <span class="bullet-dot" style="background-color:#c4a56a"></span><span>troca de experiência
+                        real</span>
+                </div>
+                <div class="card card-dark">
+                    <span class="bullet-dot" style="background-color:#c4a56a"></span><span>novas perspectivas de
+                        negócio</span>
+                </div>
+                <div class="card card-dark" style="grid-column:1/-1;">
+                    <span class="bullet-dot" style="background-color:#c4a56a"></span><span>acesso a pessoas que pensam
+                        grande</span>
+                </div>
+            </div>
+            <p class="quote">Às vezes uma conversa muda mais um negócio do que meses trabalhando sozinho.</p>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ESCASSEZ -->
+    <section>
+        <div class="container">
+            <h2>Mesa <span class="gold">limitada</span></h2>
+            <p class="text-muted" style="margin-bottom:0.75rem;">
+                Para manter o nível das conversas e a qualidade das conexões, o número de lugares é limitado.
+            </p>
+            <p class="text-muted" style="margin-bottom:0.75rem;">As cadeiras costumam ser preenchidas rapidamente.</p>
+            <p class="text-medium">Se fizer sentido para você, aplique para participar.</p>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+    <h2 class="speakers-title">
+        Quem estará na <span class="gold">mesa</span>
+    </h2>
+
+    <div style="max-width:48rem;margin:0 auto 3.5rem;">
+        <!-- Speaker 1 -->
+        <div class="speaker-card">
+            <img src="https://storage.googleapis.com/msgsndr/dkM0aNpySiIFf3uusFTa/media/6986728a9710006235d5077a.png"
+                alt="Dr. Santiago Vecina">
+            <div>
+                <h4>Dr. Santiago Vecina</h4>
+                <p>Médico, empresário e palestrante internacional, especialista em nutrologia esportiva e
+                    otimização da saúde. Transformou vidas de atletas de elite e é criador do método SAAMS.
+                    Autor do livro "Médico do Corpo e da Alma", ele ensina como viver com energia, foco e alta
+                    performance.</p>
+            </div>
+        </div>
+        <!-- Speaker 2 -->
+        <div class="speaker-card">
+            <img src="https://storage.googleapis.com/msgsndr/dkM0aNpySiIFf3uusFTa/media/6986771e0a7fd15dd6cf0331.png"
+                alt="Hewerton Scheidegger">
+            <div>
+                <h4>Hewerton Scheidegger</h4>
+                <p>Empresário, mentor de negócios e autor dos livros 1000 Códigos de Sabedoria e Método 7D para Milhões
+                    em Vendas. Advogado tributarista, contador e especialista em finanças, fundou e participou da
+                    construção de diversas empresas nas áreas de consultoria, tecnologia, finanças e gestão.
+                    Criador do Método REI, já treinou e mentorou milhares de pessoas em temas como prosperidade,
+                    riqueza, crescimento empresarial, mentalidade, alta performance e liderança de vida.
+                    Ultraman e Ironman, ensina que a prosperidade é a plenitude de vida, é ganhar sem perder, é
+                    tornar-se bem sucedido em todas as áreas para viver uma vida extraordinária com propósito.</p>
+            </div>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <!-- CTA FINAL -->
+    <section class="cta-section">
+        <div class="glow-bg"
+            style="background:radial-gradient(ellipse at center, rgba(168,135,74,0.08) 0%, transparent 60%);"></div>
+        <div class="cta-circle1"></div>
+        <div class="cta-circle2"></div>
+        <div class="container" style="position:relative;">
+            <h2>
+                Se você quer continuar nos mesmos ambientes, tudo bem.<br />Mas se quer crescer, talvez seja hora de
+                <span class="gold">mudar de mesa.</span>
+            </h2>
+            <button class="cta" onclick="document.getElementById('formModal').classList.add('active')">
+                Quero aplicar para um lugar na mesa
+            </button>
+        </div>
+    </section>
+
+    <div class="spacer"></div>
+
+    <!-- BARRA FIXA -->
+    <div class="bottom-bar">
+        <div class="bottom-bar-inner">
+            <div class="bottom-bar-text">
+                <span>Jantar de Negócios</span><span class="dot">•</span><span class="highlight">Vagas Limitadas</span>
+            </div>
+            <button class="cta" onclick="document.getElementById('formModal').classList.add('active')">
+                Aplicar para participar
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL FORMULÁRIO -->
+    <div class="modal-overlay" id="formModal" onclick="if(event.target===this)this.classList.remove('active')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="document.getElementById('formModal').classList.remove('active')">
+                &times;
+            </button>
+            <iframe src="https://link.salee.ai/widget/survey/IvAmmqoCJvvgUKJmQ4rd"
+                style="border:none;width:100%;min-height:500px;" scrolling="no" id="IvAmmqoCJvvgUKJmQ4rd"
+                title="survey"></iframe>
+        </div>
+    </div>
+
+    <script src="https://link.salee.ai/js/form_embed.js"></script>
+</body>
+
+</html>
